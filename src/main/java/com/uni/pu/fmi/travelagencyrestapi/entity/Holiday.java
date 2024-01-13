@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "holiday")
@@ -34,5 +35,8 @@ public class Holiday {
     @ManyToOne(targetEntity = Location.class)
     @JoinColumn(name = "location")
     private Location location;
+
+    @OneToMany(mappedBy = "holiday", cascade = CascadeType.REMOVE)
+    private Set<Reservation> reservations;
 
 }

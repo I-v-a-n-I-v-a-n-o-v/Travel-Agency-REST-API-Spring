@@ -43,6 +43,8 @@ public class ReservationService {
         reservation.setContactName(createReservationDTO.getContactName());
         reservation.setPhoneNumber(createReservationDTO.getPhoneNumber());
         Holiday holiday = holidayRepository.findById(createReservationDTO.getHolidayId()).orElseThrow();
+        holiday.setFreeSlots(holiday.getFreeSlots() - 1);
+        holidayRepository.save(holiday);
         reservation.setHoliday(holiday);
 
         reservationRepository.save(reservation);
@@ -66,6 +68,10 @@ public class ReservationService {
     }
 
     public void deleteReservationById(long id) {
+        Reservation reservation = reservationRepository.findById(id).orElseThrow();
+        Holiday holiday = holidayRepository.findById(reservation.getHoliday().getId()).orElseThrow();
+        holiday.setFreeSlots(holiday.getFreeSlots() + 1);
+        holidayRepository.save(holiday);
         reservationRepository.deleteById(id);
     }
 }

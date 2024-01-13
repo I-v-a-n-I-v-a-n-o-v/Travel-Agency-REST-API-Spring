@@ -3,7 +3,7 @@ package com.uni.pu.fmi.travelagencyrestapi.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.apachecommons.CommonsLog;
+import java.util.Set;
 
 @Entity
 @Table(name = "location")
@@ -29,4 +29,7 @@ public class Location {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.REMOVE)
+    private Set<Holiday> holidays;
 }
